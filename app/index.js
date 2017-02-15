@@ -1,2 +1,2 @@
 require('./main')
-console.log("hello world")
+require('./components/LikesCounter')
