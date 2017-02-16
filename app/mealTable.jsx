@@ -1,22 +1,32 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 const FoodRow = require('./foodRow')
+const axios = require('axios')
 
 class MealTable extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { foods: [
-      {name: "Salad", calories: 80, id: 1},
-      {name: "Cheetos", calories: 90, id: 2}
-    ]}
+    this.state = { foods: []}
   }
 
-  deleteRow(id) {
-    let newFoods = this.state.foods.filter((food) => {
-      return food.id !== id
-    })
+  deleteRow(id, join_id) {
+    let url = "http://quantified-api.herokuapp.com/v1/meal_foods"
+    axios.delete(`${url}${join_id}.json`)
+      .then(
+        let newFoods = this.state.foods.filter((food) => {
+        return food.id !== id
+      }
+    ))
 
     this.setState({foods: newFoods})
+  }
+
+  componentDidMount(){
+
+    axios.get("http://quantified-api.herokuapp.com/v1/meals/1.json")
+      .then((response) => {
+        this.setState({foods: response.data})
+      })
   }
 
   render() {
@@ -25,7 +35,7 @@ class MealTable extends React.Component {
         key={food.id}
         name={food.name}
         calories={food.calories}
-        removeSelf={this.deleteRow.bind(this, food.id)} />  )
+        removeSelf={this.deleteRow.bind(this, food.id, food.join_id)} />  )
     })
     return (
       <table>
