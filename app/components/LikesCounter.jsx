@@ -2,7 +2,6 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const ActionButton = require('./ActionButton')
 
-
 class LikesCounter extends React.Component {
   constructor(props) {
     super(props);
