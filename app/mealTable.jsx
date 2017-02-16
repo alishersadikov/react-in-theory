@@ -11,20 +11,30 @@ class MealTable extends React.Component {
     ]}
   }
 
+  deleteRow(id) {
+    let newFoods = this.state.foods.filter((food) => {
+      return food.id !== id
+    })
+
+    this.setState({foods: newFoods})
+  }
+
   render() {
     let foodRows = this.state.foods.map((food) => {
-      return (<FoodRow key={food.id} name={food.name} calories={food.calories}/>)
+      return (<FoodRow
+        key={food.id}
+        name={food.name}
+        calories={food.calories}
+        removeSelf={this.deleteRow.bind(this, food.id)} />  )
     })
     return (
       <table>
         <thead>
           <tr><th>Name</th><th>Calories</th><th></th></tr>
         </thead>
-
         <tbody>
           {foodRows}
         </tbody>
-
       </table>
     )
   }
